@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  nextcloud:
+    image: nextcloud:26.0
+    ports:
+      - "8080:80"
+    volumes:
+      - ./configs/nextcloud_config:/var/www/html/config
+      - nextcloud_data:/var/www/html/data
+    depends_on:
+      - db
+
+  onlyoffice:
+    image: onlyoffice/documentserver:7.3
+    ports:
+      - "9000:80"
+    volumes:
+      - ./configs/onlyoffice_config:/etc/onlyoffice
+      - onlyoffice_data:/var/www/onlyoffice/Data
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  nextcloud_data:
+  onlyoffice_data:
+  db_data:

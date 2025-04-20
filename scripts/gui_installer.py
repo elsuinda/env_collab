@@ -33,6 +33,4 @@ for i in range(101):
     update_progress(i, f"Paso {i}/100: Ejecutando tarea...")
     time.sleep(0.05)
 
-print("Instalación completada. ¡Disfruta usando env_collab! 🚀")
-
 root.mainloop()
