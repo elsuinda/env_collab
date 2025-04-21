@@ -19,6 +19,8 @@ services:
       - NEXTCLOUD_DB_NAME=nextcloud
       - NEXTCLOUD_DB_USER=nextcloud
       - NEXTCLOUD_DB_PASSWORD=nextcloudpassword
+    networks:
+      - collab_network
 
   onlyoffice:
     image: onlyoffice/documentserver:7.3
@@ -33,6 +35,8 @@ services:
       - NEXTCLOUD_URL=http://nextcloud:80
     depends_on:
       - nextcloud
+    networks:
+      - collab_network
 
   db:
     image: postgres:13
@@ -42,9 +46,15 @@ services:
       - POSTGRES_DB=nextcloud
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - collab_network
 
 volumes:
   nextcloud_data:
   onlyoffice_data:
   db_data:
     driver: local
+
+networks:
+  collab_network:
+    driver: bridge
