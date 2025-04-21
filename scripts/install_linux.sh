@@ -42,12 +42,12 @@ docker-compose up -d
 # Mensaje final
 echo -e "${GREEN}"
 cat << "EOF"
-  ╔════════════════════════════════════════════╗
-  ║       ¡INSTALACIÓN COMPLETADA!             ║
-  ║                                            ║
+  ╔════════════════════════════════════════════════╗
+  ║       ¡INSTALACIÓN COMPLETADA!                 ║
+  ║                                                ║
   ║  Accede a Nextcloud en: http://localhost:8080  ║
-  ║  OnlyOffice en: http://localhost:9000      ║
-  ╚════════════════════════════════════════════╝
+  ║  OnlyOffice en: http://localhost:9000          ║
+  ╚════════════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
 
