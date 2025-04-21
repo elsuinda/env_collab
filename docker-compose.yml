@@ -9,6 +9,16 @@ services:
       - nextcloud_data:/var/www/html/data
     depends_on:
       - db
+    environment:
+      - ONLYOFFICE_URL=http://onlyoffice:80
+      - NEXTCLOUD_TRUSTED_DOMAINS=localhost
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=adminpassword
+      - NEXTCLOUD_DB_TYPE=pgsql
+      - NEXTCLOUD_DB_HOST=db
+      - NEXTCLOUD_DB_NAME=nextcloud
+      - NEXTCLOUD_DB_USER=nextcloud
+      - NEXTCLOUD_DB_PASSWORD=nextcloudpassword
 
   onlyoffice:
     image: onlyoffice/documentserver:7.3
@@ -17,11 +27,19 @@ services:
     volumes:
       - ./configs/onlyoffice_config:/etc/onlyoffice
       - onlyoffice_data:/var/www/onlyoffice/Data
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=mysecret
+      - NEXTCLOUD_URL=http://nextcloud:80
+    depends_on:
+      - nextcloud
 
   db:
     image: postgres:13
     environment:
-      POSTGRES_PASSWORD: mysecretpassword
+      - POSTGRES_PASSWORD: mysecretpassword
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_DB=nextcloud
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -29,3 +47,4 @@ volumes:
   nextcloud_data:
   onlyoffice_data:
   db_data:
+    driver: local
