@@ -28,6 +28,26 @@ El contenedor de PostgreSQL se ha configurado con las siguientes variables:
 - **POSTGRES_PASSWORD**: Contraseña del usuario de la base de datos.
 - **POSTGRES_DB**: Nombre de la base de datos utilizada por Nextcloud.
 
+### Solución de Problemas
+#### Error: Formato inválido en `docker-compose.yml`
+Si al iniciar los contenedores aparece el error:
+```
+services.db.environment contains {"POSTGRES_PASSWORD": "mysecretpassword"}, which is an invalid type, it should be a string
+```
+Esto ocurre porque las variables de entorno en el servicio `db` están definidas como un objeto JSON en lugar de una lista de cadenas. Para solucionarlo:
+1. Abre el archivo `docker-compose.yml`.
+2. Asegúrate de que las variables de entorno en el servicio `db` estén definidas como una lista de cadenas, por ejemplo:
+   ```yaml
+   environment:
+     - POSTGRES_PASSWORD=mysecretpassword
+     - POSTGRES_USER=nextcloud
+     - POSTGRES_DB=nextcloud
+   ```
+3. Guarda los cambios y reinicia los contenedores con:
+   ```bash
+   docker-compose down && docker-compose up -d
+   ```
+
 ## Configuración de HTTPS
 Se recomienda configurar un proxy inverso (como Nginx o Traefik) para habilitar HTTPS. Esto mejora la seguridad y permite el uso de funciones avanzadas como "service workers". Puedes usar Let's Encrypt para generar certificados SSL gratuitos.
 

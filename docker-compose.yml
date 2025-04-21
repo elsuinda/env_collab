@@ -37,7 +37,7 @@ services:
   db:
     image: postgres:13
     environment:
-      - POSTGRES_PASSWORD: mysecretpassword
+      - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=nextcloud
       - POSTGRES_DB=nextcloud
     volumes:
