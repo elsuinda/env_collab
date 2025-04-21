@@ -19,6 +19,20 @@ services:
       - NEXTCLOUD_DB_NAME=nextcloud
       - NEXTCLOUD_DB_USER=nextcloud
       - NEXTCLOUD_DB_PASSWORD=nextcloudpassword
+    entrypoint: >
+      sh -c "
+      php occ maintenance:install
+      --database 'pgsql'
+      --database-host 'db'
+      --database-name 'nextcloud'
+      --database-user 'nextcloud'
+      --database-pass 'nextcloudpassword'
+      --admin-user 'admin'
+      --admin-pass 'adminpassword' &&
+      php occ config:system:set trusted_domains 0 --value='localhost' &&
+      php occ config:system:set onlyoffice DocumentServerUrl --value='http://onlyoffice/' &&
+      apache2-foreground
+      "
     networks:
       - collab_network
 
@@ -37,6 +51,8 @@ services:
       - nextcloud
     networks:
       - collab_network
+    extra_hosts:
+      - "onlyoffice:127.0.0.1"
 
   db:
     image: postgres:13
